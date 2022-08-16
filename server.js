@@ -5,11 +5,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const dns = require('dns');
-// const { isDataView } = require('util/types');
+const { url } = require('inspector');
+const { doesNotMatch } = require('assert');
 const app = express();
 const { Schema } = mongoose;
 const myURI = process.env['MONGO_URI'];
-const db = mongoose.connection;
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -24,51 +24,38 @@ app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-mongoose.connect(myURI,
-  {
-    useNewUrlParser: true,
-    // useFindAndModify: false,
-    useUnifiedTopology: true
-  }
-)
-
+mongoose.connect(myURI, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
+  console.log('connected to database')
+});
+    
 const urlSchema = new Schema({
   originalURL: String,
   short_url: Number
 })
 
-const Url = mongoose.model('Url', urlSchema)
+const UrlModel = mongoose.model('Url', urlSchema)
 
-// const createAndSaveURLInfo = function(done) {
-//   const urlOne = new Url({originalURL: "https://linkedin.com/", short_url: 764})}
+let urlCode = Math.floor(Math.random() * 10)
 
-//   data.save(function(err, urlOne) {
-//     if (err) return console.log(err);
-//     done(null, urlOne)
-//   })
-
-let urlCode = Math.floor(1000 + Math.random() * 9000)
-
-app.post('/api/shorturl', function(req, res) {
-  const originalURL = req.body.url
+app.post('/api/shorturl', function (req, res) {
   res.json({
-      "original_url": originalURL,
+      "original_url": req.body.url,
       "short_url": urlCode
     })
 })
 
-// app.get(`/api/shorturl/${urlCode}`, function(req, res) {
-//   res.redirect(301, )
-// })
+app.get(`/api/shorturl/${urlCode}`, function(req, res) {
+  res.redirect(req.body.url)
+})
 
-// dns.lookup('req.body.url', (err, req, value) => {
-//   if(err) {
-//     console.log(err);
-//     return
-//   } else {
-//     data.save()
-//   }
-// })
+dns.lookup('req.body.url', (err, data) => {
+  if(err) {
+    console.log(err);
+    return
+  } else {
+    data.save()
+  }
+})
 
 // First API endpoint
 app.get('/api/hello', function(req, res) {
