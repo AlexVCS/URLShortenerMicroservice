@@ -44,18 +44,18 @@ app.post('/api/shorturl', function (req, res) {
     })
 })
 
-app.get(`/api/shorturl/${urlCode}`, function(req, res) {
-  res.redirect(req.body.url)
-})
+// app.get(`/api/shorturl/${urlCode}`, function(req, res) {
+//   res.redirect(req.body.url)
+// })
 
-dns.lookup('req.body.url', (err, data) => {
-  if(err) {
-    console.log(err);
-    return
-  } else {
-    data.save()
-  }
-})
+// dns.lookup('req.body.url', (err, data) => {
+//   if(err) {
+//     console.log(err);
+//     return
+//   } else {
+//     data.save()
+//   }
+// })
 
 // First API endpoint
 app.get('/api/hello', function(req, res) {
