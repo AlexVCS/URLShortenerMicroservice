@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-mongoose.connect(myURI, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
+mongoose.connect(`${myURI}`, {useNewUrlParser: true, useUnifiedTopology: true}, () => {
   console.log('connected to database')
 });
     
