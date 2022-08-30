@@ -39,7 +39,7 @@ app.post('/api/shorturl', async function (req, res) {
   const options = {
     verbatim: new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/)
   }
-  dns.lookup('http://example.com', options, async (error) => {
+  dns.lookup(inputUrl, options, async (error) => {
         console.log(error)
         if (error) {
           res.json({
