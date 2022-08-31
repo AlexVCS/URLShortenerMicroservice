@@ -41,9 +41,9 @@ app.post("/api/shorturl", async function (req, res) {
     host: req.body.url,
   };
   dns.lookup(inputUrl, options, async (error) => {
-    console.log("this is the error: ", error);
+    // console.log("this is the error: ", error);
     if (urlRegex.test(inputUrl)) {
-      console.log("hi I am running");
+      // console.log("hi I am running");
       const totalCount = await Url.count();
       let urlCode = totalCount + 1;
       const newRedirect = new Url({
